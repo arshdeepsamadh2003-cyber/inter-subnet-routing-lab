@@ -1,0 +1,51 @@
+name: inter-subnet-routing-lab
+
+subnets:
+  subnet-a:
+    network: 192.168.10.0/24
+    gateway: 192.168.10.1
+
+  subnet-b:
+    network: 192.168.20.0/24
+    gateway: 192.168.20.1
+
+hosts:
+  host-a1:
+    ip_address: 192.168.10.10/24
+    subnet: subnet-a
+    default_gateway: 192.168.10.1
+
+  host-a2:
+    ip_address: 192.168.10.11/24
+    subnet: subnet-a
+    default_gateway: 192.168.10.1
+
+  host-b1:
+    ip_address: 192.168.20.10/24
+    subnet: subnet-b
+    default_gateway: 192.168.20.1
+
+  host-b2:
+    ip_address: 192.168.20.11/24
+    subnet: subnet-b
+    default_gateway: 192.168.20.1
+
+router:
+  name: router
+  ip_forwarding: true
+
+  interfaces:
+    eth1:
+      ip_address: 192.168.10.1/24
+      connected_subnet: subnet-a
+
+    eth2:
+      ip_address: 192.168.20.1/24
+      connected_subnet: subnet-b
+
+  routes:
+    - destination: 192.168.10.0/24
+      interface: eth1
+
+    - destination: 192.168.20.0/24
+      interface: eth2
